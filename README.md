@@ -37,7 +37,7 @@ We designed a modular workflow to translate the business problem into a solvable
 ├── README.md
 ├── requirements.txt
 ├── data/
-│   └── problem_instance_15_assets.py
+│   └── assets.csv
 ├── notebooks/
 │   └── main_demonstration.ipynb
 └── src/
