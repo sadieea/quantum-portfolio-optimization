@@ -55,7 +55,7 @@ To replicate our results, please follow these steps:
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/](https://github.com/)sadieea/vanguard-quantum-portfolio-optimization.git
+    git clone [https://github.com/](https://github.com/)sadieea/vanguard-quantum-portfolio-optimization.git     
     cd vanguard-quantum-portfolio-optimization
     ```
 
@@ -89,20 +89,36 @@ To replicate our results, please follow these steps:
 ### Original Problem
 The model seeks to find an optimal portfolio by minimizing a quadratic objective function subject to several linear constraints.
 * **Decision Variable**: $$y_c \in \{0, 1\}$$, indicating if bond $$c$$ is in the portfolio.
-* **Objective Function**: Minimize the tracking error against target characteristics.             
-    $$\min \sum_{l \in L}\sum_{j \in J}\rho_j\left(\sum_{c \in K_l} \beta_{c,j}x_c-K^{target}_{l,j}\right)^2$$
+* **Objective Function**: Minimize the tracking error against target characteristics.
+<div align="center">
+        
+$$\min \sum_{l \in L}\sum_{j \in J}\rho_j\left(\sum_{c \in K_l} \beta_{c,j}x_c-K^{target}_{l,j}\right)^2$$
+
+</div>
 * **Main Constraints**: The model is subject to multiple guardrails, including a maximum number of bonds in the basket ($\sum y_c \le N$) and limits on residual cash flow.
 
 ### QUBO Formulation with Unbalanced Penalization
-We convert the problem into an unconstrained QUBO model by adding penalty terms for each constraint. The total cost function is $$H = H_{objective} + H_{constraints}$$.        
-For an inequality constraint like $$\sum y_c \le N$$, the unbalanced penalty term is:          
-$$P = -\lambda^{(0)}\left(N - \sum_{c\in C} y_c\right) + \lambda^{(1)}\left(N - \sum_{c\in C} y_c\right)^2$$         
+We convert the problem into an unconstrained QUBO model by adding penalty terms for each constraint. The total cost function is      
+<div align="center">
+    
+$$H = H_{objective} + H_{constraints}$$.        
+
+</div>
+For an inequality constraint like $$\sum y_c \le N$$, the unbalanced penalty term is:   
+<div align="center">
+    
+$$P = -\lambda^{(0)}\left(N - \sum_{c\in C} y_c\right) + \lambda^{(1)}\left(N - \sum_{c\in C} y_c\right)^2$$ 
+    
+</div>    
 This penalizes violations quadratically while adding minimal energy in the feasible region. The full QUBO model includes seven such penalty terms, as derived in our source code.
 
 ### Ising Hamiltonian
 The final QUBO model, which uses binary variables $$y_c \in \{0, 1\}$$, is then converted to an Ising Hamiltonian using the standard mapping $$y_c = (1 - z_c) / 2$$, where $$z_c \in \{-1, 1\}$$. This results in a Hamiltonian that OpenQAOA can solve:   
-$$H_{total} = \text{const}^{tot} + \sum_c h^{tot}_c z_c + \sum_{c < c'} J^{tot}_{cc'} z_c z_{c'}$$
+<div align="center">
+        
+$$H_{total} = \text{const}^{tot} + \sum_c h_c^{tot} z_c + \sum_{c&lt c'} J_{cc'}^{tot} z_c z_{c'}$$
 
+</div>
 ---
 
 ## 💡 Solution & Results
