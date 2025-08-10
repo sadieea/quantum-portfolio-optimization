@@ -19,4 +19,9 @@ Classical Benchmark Solution (Efficient Frontier):
 Scales very well (Polynomial Time). The difficulty grows predictably. This method can easily handle portfolios with hundreds or even thousands of assets on a standard computer.
 
  Quantum-Inspired Solution (QUBO Solver):
+
 Scales poorly (Exponential Time) on classical computers. The number of possible portfolios grows explosively, making the problem intractable for classical machines at larger sizes. This is the primary motivation for using quantum computers.
+
+The Classical method is perfect for getting a theoretical baseline under idealized assumptions.
+
+The QUBO approach is far more powerful for encoding the messy, specific, and discrete constraints that define real-world business problems. While solving this QUBO is hard for classical computers today, it's exactly the type of problem that future quantum computers are expected to excel at.
