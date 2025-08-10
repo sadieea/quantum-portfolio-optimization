@@ -1,130 +1,152 @@
-# vanguard-quantum-portfolio-optimization
-A quantum-enhanced solution for the Vanguard Portfolio Optimization Challenge, developed for the Womanium + WISER Quantum 2025 program using a QAOA-based algorithm.
+# quantum-portfolio-optimization
+A quantum-enhanced solution for the Portfolio Optimization Challenge, developed for the Womanium + WISER Quantum 2025 program using a QAOA-based algorithm.
 
-# Vanguard Portfolio Optimization 
+# Quantum-Enhanced Portfolio Optimization
 
-**Participants:** Sadiya Ansari, Rudraksh Sharma, VU Binh            
-**Submission for:** Womanium + WISER Quantum 2025
+* **Project Name:** Quantum-Enhanced Portfolio Optimization    
+* **Team Name:** $$Qubit^3$$     
+* **Team Members:**    
+    * Sadiya Ansari (WISER ID: gst-Ud0icMdXMU49utv)    
+    * Rudraksh Sharma (WISER ID: gst-9CHiRrQJXjQhyij)    
+    * Van Binh VU (WISER ID: gst-gASeCBd9WmUPOAX)    
+  
+---
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python Version](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
+## 2. Project Summary
+
+This project addresses the Portfolio Optimization Challenge by prototyping a quantum-enhanced solution to a complex, constraint-heavy asset selection problem. Classical optimization tools face limitations in speed and scalability when dealing with high-dimensional financial models. Our goal is to demonstrate how hybrid quantum-classical algorithms can tackle these problems, specifically by framing the task as a **Quadratic Unconstrained Binary Optimization (QUBO)** problem and solving it with the **Quantum Approximate Optimization Algorithm (QAOA)**.
+
+Our approach involves a multi-step pipeline. First, we translate a realistic set of financial objectives and constraints into a QUBO model. The primary objective is to select a portfolio of assets that matches the characteristics of specific risk buckets to a target value. This is a quadratic objective function that penalizes deviation from the target. We simultaneously enforce a linear constraint—selecting a fixed number of assets for the final portfolio—by adding a quadratic penalty term to the Hamiltonian. This process successfully converts the constrained optimization problem into an unconstrained format suitable for quantum annealers or gate-based quantum computers.
+
+The core of our solution lies in solving this QUBO using **Qiskit's QAOA implementation**. We convert the QUBO matrix into an equivalent Ising Hamiltonian, which represents the problem's cost function. The QAOA algorithm is then run on a high-performance classical simulator (`matrix_product_state`) to find the ground state of this Hamiltonian. The ground state, represented by a binary bitstring, corresponds to the optimal asset selection that minimizes our cost function. The result is a concrete selection of assets that represents the near-optimal portfolio.
+
+To validate our quantum solution, we developed a classical benchmark based on **Modern Portfolio Theory (MPT)**. This classical solver uses `scipy.optimize` to find the portfolio with the maximum Sharpe Ratio, a standard industry metric for risk-adjusted return. It also calculates the efficient frontier, visualizing the optimal trade-off between risk and return. While the MPT solver optimizes for continuous asset weights and the QAOA solver optimizes for discrete asset selection, the comparison provides valuable context. Our project successfully demonstrates a complete workflow from problem formulation to quantum execution and classical validation, highlighting the potential of quantum algorithms to provide powerful solutions for complex financial modeling tasks.
 
 ---
 
-## 🚀 Challenge Overview
+## 3. Project Presentation
 
-This project tackles the Vanguard Portfolio Optimization Challenge by developing a quantum-enhanced solution. The goal is to solve a complex, real-world portfolio construction problem with a quadratic objective and multiple constraints. We aim to evaluate the performance of a quantum optimization algorithm against a classical benchmark.
+Our final presentation deck, which provides a high-level overview of our approach and results, can be found in the `docs` folder:   
 
----
+* **[Link to Your Presentation](./docs/Presentation.pdf)**  
 
-## 🎯 Our Approach
-
-We designed a modular workflow to translate the business problem into a solvable quantum format and interpret the results. Our methodology is as follows:
-
-1.  **Mathematical Conversion**: We transformed the original constrained problem into an unconstrained QUBO (Quadratic Unconstrained Binary Optimization) model. To handle inequality constraints efficiently without introducing extra qubits, we implemented a **slack-free unbalanced penalization** method.
-2.  **Quantum Solution**: We employed the **Quantum Approximate Optimization Algorithm (QAOA)** using the high-level **OpenQAOA** library. We chose QAOA for its suitability to combinatorial optimization problems.
-3.  **Classical Validation**: To benchmark our quantum solution, we solved the same QUBO problem using a classical solver, which provides a strong heuristic solution.
-4.  **Comparative Analysis**: We rigorously compared the quantum and classical solutions based on the final cost function value, runtime, and performance as the problem size (number of assets) increases.
 
 ---
 
-## 📂 Repository Structure
+## 4. Repository Structure
+
+Our project is organized into the following directories for clarity and reproducibility:
 
 ```
 .
+├── data/
+│   ├── assets.csv                  # Raw input data for all bonds
+│   ├── asset_list.txt              # Output: List of bond ISINs for the QUBO
+│   ├── qubo_matrix.txt             # Output: The generated QUBO matrix
+│   ├── qubo_offset.txt             # Output: The QUBO offset value
+│   └── optimal_asset_allocation.csv # Output: Results from the classical solver
+├── docs/
+│   ├── Presentation.pdf              # Project presentation deck
+|   └── QUBO_formulation.pdf          # QUBO formulation
+├── notebooks/
+│   └── main_demonstration.ipynb    # Main notebook combining all steps
+├── src/
+│   ├── problem_converter.py        # Script to formulate the QUBO
+│   ├── quantum_solver.py           # Script to solve the QUBO with QAOA
+│   └── classical_solver.py         # Script for the classical MPT benchmark
 ├── .gitignore
 ├── LICENSE
-├── README.md
-├── requirements.txt
-├── data/
-│   └── assets.csv
-├── notebooks/
-│   └── main_demonstration.ipynb
-└── src/
-    ├── __init__.py
-    ├── classical_solver.py
-    ├── problem_converter.py
-    └── quantum_solver.py
+└── README.md
 ```
 
 ---
 
-## ⚙️ How to Run
+## 5. How to Run the Solution
 
-To replicate our results, please follow these steps:
+To replicate our results, please follow the steps below.
 
-1.  **Clone the repository:**
+### Prerequisites
+
+Ensure you have Python 3.8+ and the following libraries installed:
+* `qiskit`
+* `qiskit_aer`
+* `qiskit_algorithms`
+* `numpy`
+* `pandas`
+* `matplotlib`
+* `scipy`
+
+### Installation
+
+1.  Clone the repository:
     ```bash
-    git clone [https://github.com/](https://github.com/)sadieea/vanguard-quantum-portfolio-optimization.git     
-    cd vanguard-quantum-portfolio-optimization
+    git clone [https://github.com/sadieeae/quantum-portfolio-optimization.git](https://github.com/sadieea/quantum-portfolio-optimization.git)
+    cd your-repo-name
     ```
-
-2.  **Create and activate a virtual environment:**
-    *Using `venv` (recommended):*
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-    ```
-    *Alternatively, using `conda`:*
-    ```bash
-    conda create -n vanguard-qaoa python=3.10
-    conda activate vanguard-qaoa
-    ```
-
-3.  **Install the required dependencies:**
+2.  (Recommended) Create a `requirements.txt` file with the libraries listed above and install them:
     ```bash
     pip install -r requirements.txt
     ```
 
-4.  **Run the demonstration notebook:**
-    Launch Jupyter and run the `main_demonstration.ipynb` notebook located in the `/notebooks` directory.
-    ```bash
-    jupyter notebook notebooks/main_demonstration.ipynb
-    ```
+### Execution Workflow
+
+The project is designed to be run in a sequence. You can run the individual scripts from the `src` folder or use the combined `main_demonstration.ipynb` notebook.
+
+**Step 1: Formulate the QUBO Problem**
+Run the first part of the `main_demonstration.ipynb` notebook (or `src/problem_converter.py`). This will use `data/assets.csv` to generate the QUBO model.
+
+* **Inputs:** `data/assets.csv`
+* **Outputs:**
+    * `data/qubo_matrix.txt`
+    * `data/asset_list.txt`
+    * `data/qubo_offset.txt`
+
+**Step 2: Solve with the Quantum Algorithm (QAOA)**
+Run the second part of the `main_demonstration.ipynb` notebook (or `src/quantum_solver.py`). This loads the generated QUBO files and solves for the optimal portfolio.
+
+* **Inputs:** The files generated in Step 1.
+* **Outputs:**
+    * A risk-return plot saved as `qaoa_risk_return_plot.png`.
+    * Console output detailing the optimal objective value and the selected assets.
+
+**Step 3: Run the Classical Benchmark**
+To generate the classical benchmark for comparison, run the `classical_solver.py` script.
+
+* **Inputs:** `data/assets.csv`
+* **Outputs:**
+    * An efficient frontier plot saved as `efficient_frontier.png`.
+    * The optimal portfolio allocation saved to `data/optimal_asset_allocation.csv`.
 
 ---
 
-## 📝 Mathematical Formulation
+## 6. Results & Analysis
 
-### Original Problem
-The model seeks to find an optimal portfolio by minimizing a quadratic objective function subject to several linear constraints.
-* **Decision Variable**: $$y_c \in \{0, 1\}$$, indicating if bond $$c$$ is in the portfolio.
-* **Objective Function**: Minimize the tracking error against target characteristics.
-<div align="center">
-        
-$$\min \sum_{l \in L}\sum_{j \in J}\rho_j\left(\sum_{c \in K_l} \beta_{c,j}x_c-K^{target}_{l,j}\right)^2$$
+We successfully implemented both the quantum and classical solvers, yielding distinct but valuable insights.
 
-</div>
-* **Main Constraints**: The model is subject to multiple guardrails, including a maximum number of bonds in the basket ($\sum y_c \le N$) and limits on residual cash flow.
+### Classical Benchmark: Efficient Frontier (MPT)
 
-### QUBO Formulation with Unbalanced Penalization
-We convert the problem into an unconstrained QUBO model by adding penalty terms for each constraint. The total cost function is      
-<div align="center">
-    
-$$H = H_{objective} + H_{constraints}$$.        
+The classical solver, based on Modern Portfolio Theory, produced the efficient frontier shown below. This curve represents the set of portfolios with the highest expected return for a given level of risk. The star indicates the single portfolio with the maximum Sharpe Ratio. This approach provides a continuous weighting for **all 31 assets** in the universe.
 
-</div>
-For an inequality constraint like $$\sum y_c \le N$$, the unbalanced penalty term is:   
-<div align="center">
-    
-$$P = -\lambda^{(0)}\left(N - \sum_{c\in C} y_c\right) + \lambda^{(1)}\left(N - \sum_{c\in C} y_c\right)^2$$ 
-    
-</div>    
-This penalizes violations quadratically while adding minimal energy in the feasible region. The full QUBO model includes seven such penalty terms, as derived in our source code.
+![Efficient Frontier Plot](./docs/efficient_frontier.png)
 
-### Ising Hamiltonian
-The final QUBO model, which uses binary variables $$y_c \in \{0, 1\}$$, is then converted to an Ising Hamiltonian using the standard mapping $$y_c = (1 - z_c) / 2$$, where $$z_c \in \{-1, 1\}$$. This results in a Hamiltonian that OpenQAOA can solve:   
-<div align="center">
-        
-$$H_{total} = \text{const}^{tot} + \sum_c h_c^{tot} z_c + \sum_{c&lt c'} J_{cc'}^{tot} z_c z_{c'}$$
+### Quantum Solution: Optimal Asset Selection (QAOA)
 
-</div>
----
+The QAOA solver tackles the discrete selection problem: **which 10 bonds** should be included in the portfolio to best satisfy the QUBO cost function. The plot below shows the risk-return profile of the top 10 portfolios found by QAOA, sorted by their measurement probability. The star marks the single best solution with the highest probability.
 
-## 💡 Solution & Results
+![QAOA Risk-Return Plot](./docs/qaoa_risk_return_plot.png)
 
+### Comparison
+
+* The **classical MPT solver** optimizes for risk-adjusted returns across all assets, resulting in a fully-allocated portfolio with continuous weights. It answers the question: "How much of every asset should I hold?"
+* The **quantum QAOA solver** optimizes for a specific set of business constraints encoded in the QUBO, resulting in a discrete selection of assets. It answers the question: "Which 10 assets should I choose?"
+
+Our quantum solution successfully identified a portfolio of 10 bonds that minimizes the objective function, demonstrating the viability of QAOA for this complex, real-world financial use case.
 
 ---
 
-## ⚖️ Conclusion
+## 7. References and Acknowledgements
 
+* This project was developed as part of the **Womanium WISER Quantum 2025** program.
+* The quantum algorithms were implemented using IBM's **Qiskit** library.
+* The classical benchmark and data analysis were performed using **NumPy**, **Pandas**, and **SciPy**.
+* We thank the organizers of Womanium and the mentors for this valuable opportunity.
