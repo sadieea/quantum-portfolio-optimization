@@ -81,7 +81,7 @@ Ensure you have Python 3.8+ and the following libraries installed:
 1.  Clone the repository:
     ```bash
     git clone [https://github.com/sadieeae/quantum-portfolio-optimization.git](https://github.com/sadieea/quantum-portfolio-optimization.git)
-    cd your-repo-name
+    cd quantum-portfolio-optimization
     ```
 2.  (Recommended) Create a `requirements.txt` file with the libraries listed above and install them:
     ```bash
