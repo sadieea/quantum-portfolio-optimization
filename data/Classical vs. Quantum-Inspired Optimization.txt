@@ -1,0 +1,22 @@
+-> Solution Quality & Practicality :
+
+Classical Benchmark Solution (Efficient Frontier): 
+Solves a simplified problem. It finds the mathematically optimal portfolio that maximizes the Sharpe Ratio but produces continuous weights (e.g., 5.73% of a bond) and cannot handle complex constraints like "choose exactly 10 bonds".
+
+Quantum-Inspired Solution (QUBO Solver):
+Solves the complex, real-world problem. It finds a high-quality approximate solution. The output is a practical and actionable list of exactly 10 bonds that respects the custom risk-targeting rules.
+
+-> Convergence of Optimization:
+
+Classical Benchmark Solution (Efficient Frontier):
+Guaranteed to converge. Because the problem is "convex" (like a simple bowl), the standard optimizer is mathematically guaranteed to find the single best global optimum quickly and reliably.
+Quantum-Inspired Solution (QUBO Solver):
+Heuristic convergence. The problem is "non-convex" (like a hilly landscape with many valleys). The solver is not guaranteed to find the absolute best solution but is designed to find a very good one (a deep valley).
+
+-> Scaling with Problem Size:
+
+Classical Benchmark Solution (Efficient Frontier):
+Scales very well (Polynomial Time). The difficulty grows predictably. This method can easily handle portfolios with hundreds or even thousands of assets on a standard computer.
+
+ Quantum-Inspired Solution (QUBO Solver):
+Scales poorly (Exponential Time) on classical computers. The number of possible portfolios grows explosively, making the problem intractable for classical machines at larger sizes. This is the primary motivation for using quantum computers.
